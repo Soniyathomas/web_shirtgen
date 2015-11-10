@@ -7,7 +7,7 @@ define("database", getenv("database"));
 define("username", getenv("username"));
 define("password", getenv("password"));
 define("alport", getenv("alport"));
-define("siteUrl_2", getenv("siteUrl_2"));
+//define("siteUrl_2", getenv("siteUrl_2"));
 define("developer", true);
 ?>
 

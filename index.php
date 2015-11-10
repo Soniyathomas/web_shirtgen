@@ -33,7 +33,7 @@ $_SESSION['al_app_secret_id'] = $app_secret_id;
 
 
 $recid = $_REQUEST["CId"];
-$siteUrl_2 = siteurl_2;	
+//$siteUrl_2 = siteurl_2;	
 $fb = new Facebook\Facebook([
 	  'app_id' => $appid,
 	  'app_secret' => $app_secret_id,

@@ -3,7 +3,7 @@ session_start();
 require_once("connect.php"); 
 require_once 'fbphp5/src/Facebook/autoload.php';
 
-$siteUrl_2='https://wpmonk.herokuapp.com';
+$siteUrl_2	=	$_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME'];
 //facebook_campaign start
 $fc_params['id'] = $_REQUEST["CId"];
 $fc_params['meta_key'] = 'facebook_campaign';
@@ -39,8 +39,22 @@ $fb = new Facebook\Facebook([
 	  'app_secret' => $app_secret_id,
 	  'default_graph_version' => 'v2.2',
 	  ]);
+	 
 $helper = $fb->getRedirectLoginHelper();
-$accessToken = $helper->getAccessToken();
+try {
+  $accessToken = $helper->getAccessToken();
+} catch(Facebook\Exceptions\FacebookResponseException $e) {
+  // When Graph returns an error
+  echo 'Graph returned an error: ' . $e->getMessage();
+  //go to failer url 
+  exit;
+} catch(Facebook\Exceptions\FacebookSDKException $e) {
+  // When validation fails or other local issues
+  echo 'Facebook SDK returned an error: ' . $e->getMessage();
+  //go to failer url   
+  exit;
+}
+//$accessToken = $helper->getAccessToken();
 $permissions = ['email']; // Optional permissions
 
 $_SESSION['Cid'] = $_REQUEST['CId'];
@@ -51,7 +65,6 @@ $Cid = $_REQUEST['CId'];
 $tId = $_REQUEST['tId'];
 $mId = $_REQUEST['mId'];
 
-//
 $redirection = $helper->getLoginUrl("$siteUrl_2/fb-callback.php?CId=$Cid&tId=$tId&mId=$mId", $permissions);
 foreach ($_SESSION as $k=>$v) {                    
     if(strpos($k, "FBRLH_")!==FALSE) {

@@ -2,8 +2,10 @@
 session_start();
 require_once("connect.php"); 
 require_once 'fbphp5/src/Facebook/autoload.php';
-
+$redirection='';
 $siteUrl_2	=	$_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME'];
+if(!empty($_REQUEST))
+{
 //facebook_campaign start
 $fc_params['id'] = $_REQUEST["CId"];
 $fc_params['meta_key'] = 'facebook_campaign';
@@ -75,6 +77,8 @@ foreach ($_SESSION as $k=>$v) {
         }
     }
 }
+}
+
 $redition_sleep = 50;
 //header("location:$loginUrl");
 //exit;
